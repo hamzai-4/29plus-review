@@ -1,5 +1,5 @@
-import {products, videos} from './catalog.mjs?v=gallery-20260925-refills';
-import {cleanCart, totalCart, checkoutUrl, recommend} from './commerce.mjs?v=three-question-v1';
+import {products, videos} from './catalog.mjs?v=october-feedback-v1';
+import {cleanCart, totalCart, checkoutUrl, recommend} from './commerce.mjs?v=multi-focus-v2';
 
 const $ = (s, root=document) => root.querySelector(s);
 const $$ = (s, root=document) => [...root.querySelectorAll(s)];
@@ -132,15 +132,16 @@ $$('#brand-film, #refill-film').forEach(film=>{
 
 const questions=[
  {key:'skin',title:'How does your skin usually feel?',options:[['combo','Shiny or combination','My skin feels oily in some areas; I prefer lighter textures.'],['dry','Dry or in need of comfort','My skin often feels dry; I enjoy richer textures.'],['unsure','Balanced or hard to describe','I’d like a lighter-texture starting point to explore.']]},
- {key:'focus',title:'What would you most like to focus on?',options:[['hydration','Moisture and comfort','Help me choose care for a soft, comfortable feel.'],['texture','Smoother-looking skin','I’m interested in texture and the appearance of fine lines.'],['eyes','A refreshed eye contour','The look of dark circles and puffiness is my main focus.']]},
- {key:'approach',title:'How would you like to build your routine?',options:[['start','Start with one essential','Guide me to one product for my main priority.'],['pair','Build with two steps','Choose two complementary products for me.'],['complete','Bring the routine together','Show me the eye, serum and cream steps that work as a ritual.']]}
+ {key:'focus',multi:true,title:'What would you like to focus on?',options:[['hydration','Moisture and comfort','Care for a soft, comfortable feel.'],['texture','Smoother-looking skin','Texture and the appearance of fine lines.'],['eyes','A refreshed eye contour','The look of dark circles and puffiness.'],['all','All of the above','Bring these skin priorities together.']]},
+ {key:'existing',title:'What is already working in your routine?',options:[['none','I’m exploring my options','Guide me by my skin priorities.'],['serum','I have a face serum I like','Help me find complementary care.'],['cream','I have a face cream I like','Help me choose the other steps.']]}
+
 ];
 let step=0,answers={};
 function renderFinder(){
  const host=$('#finder-content');
  if(step<questions.length){
-  const q=questions[step];host.innerHTML=`<div class="finder-progress">STEP ${step+1} OF ${questions.length}</div><div class="finder-step"><h3 tabindex="-1">${q.title}</h3><div class="finder-options" role="group" aria-label="${esc(q.title)}">${q.options.map(([value,title,desc])=>`<button class="finder-option" data-answer="${value}" aria-pressed="${answers[q.key]===value}"><strong>${title}</strong><span>${desc}</span></button>`).join('')}</div></div><div class="finder-controls"><button class="text-link" data-back ${step===0?'hidden':''}>← Back</button><button class="button" data-next ${answers[q.key]?'':'disabled'}>${step===questions.length-1?'See my ritual':'Continue'} ↗</button></div>`;
-  $$('[data-answer]',host).forEach(b=>b.addEventListener('click',()=>{answers[q.key]=b.dataset.answer;$$('[data-answer]',host).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$('[data-next]',host).disabled=false;}));
+  const q=questions[step];host.innerHTML=`<div class="finder-progress">STEP ${step+1} OF ${questions.length}</div><div class="finder-step"><h3 tabindex="-1">${q.title}</h3>${q.multi?'<p class="small">Choose one or more concerns, or select all of the above.</p>':''}<div class="finder-options" role="group" aria-label="${esc(q.title)}">${q.options.map(([value,title,desc])=>`<button class="finder-option" data-answer="${value}" aria-pressed="${q.multi?(answers[q.key]||[]).includes(value):answers[q.key]===value}"><strong>${title}</strong><span>${desc}</span></button>`).join('')}</div></div><div class="finder-controls"><button class="text-link" data-back ${step===0?'hidden':''}>← Back</button><button class="button" data-next ${(q.multi?answers[q.key]?.length:answers[q.key])?'':'disabled'}>${step===questions.length-1?'See my ritual':'Continue'} ↗</button></div>`;
+  $$('[data-answer]',host).forEach(b=>b.addEventListener('click',()=>{if(q.multi){let values=answers[q.key]||[];const v=b.dataset.answer;values=v==='all'?(values.includes('all')?[]:['all']):values.includes(v)?values.filter(x=>x!==v):[...values.filter(x=>x!=='all'),v];answers[q.key]=values;$$('[data-answer]',host).forEach(x=>x.setAttribute('aria-pressed',String(values.includes(x.dataset.answer))));$('[data-next]',host).disabled=!values.length;}else{answers[q.key]=b.dataset.answer;$$('[data-answer]',host).forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$('[data-next]',host).disabled=false;}}));
   $('[data-next]',host).addEventListener('click',()=>{step++;renderFinder();$('#finder-content h3')?.focus();});
   $('[data-back]',host)?.addEventListener('click',()=>{step--;renderFinder();$('#finder-content h3')?.focus();});
  }else{
