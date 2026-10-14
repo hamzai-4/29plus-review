@@ -499,3 +499,9 @@ h1,h2,h3,h4{color:var(--wine)}
 .finder-option[aria-pressed=true]{box-shadow:inset 0 0 0 1px var(--wine)}
 @media(max-width:900px){.ingredient-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.hero-copy h1{font-size:42px}}
 @media(max-width:600px){.ingredient-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.ingredient-tabs button span{font-size:13px}.finder-options{grid-template-columns:1fr}.finder-option{min-height:72px;padding:14px}.finder-step h3{font-size:25px}.pdp-copy h1{font-size:30px}.stat strong{font-size:46px}}
+/* Keep evidence readable, with red reserved for result figures and key terms. */
+.proof :is(h2,h3,h4),#evidence :is(h2,h3,h4),.proof p,.proof .testing-item p,#evidence p{color:var(--ink)}
+.proof .result-highlight,.proof .stat strong,.proof .supporting-results strong,#evidence td{color:var(--wine)}
+.story-section>img.story-mountain{object-fit:contain;object-position:center;background:transparent}
+.story-section.story-text-only{grid-template-columns:1fr;min-height:0;padding-block:clamp(40px,7vh,80px)}
+.story-text-only .story-copy{max-width:660px}
