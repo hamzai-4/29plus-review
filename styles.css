@@ -505,3 +505,6 @@ h1,h2,h3,h4{color:var(--wine)}
 .story-section>img.story-mountain{object-fit:contain;object-position:center;background:transparent}
 .story-section.story-text-only{grid-template-columns:1fr;min-height:0;padding-block:clamp(40px,7vh,80px)}
 .story-text-only .story-copy{max-width:660px}
+
+/* Recycling content stays within the existing two-section refill page. */
+.refill-recycling{border-top:1px solid var(--line);padding-top:16px;margin-bottom:20px;max-width:850px}.refill-recycling h2{font-size:24px;margin-bottom:8px}.refill-recycling p{font-size:13px;margin-bottom:10px}.tool-benefits{padding-top:0}.tool-benefits h2{margin-bottom:20px}
