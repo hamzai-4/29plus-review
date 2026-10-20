@@ -68,9 +68,86 @@ document.addEventListener('click',event=>{
       const updated=$(`[data-quantity="${handle}"][data-delta="${delta}"]`);(updated?.disabled?updated.parentElement.querySelector('button:not(:disabled)'):updated)?.focus();}
   }
 });
-$$('dialog').forEach(d=>d.addEventListener('click',ev=>{if(ev.target===d){const r=d.getBoundingClientRect();if(ev.clientX<r.left||ev.clientX>r.right||ev.clientY<r.top||ev.clientY>r.bottom)d.close();}}));
+$$('dialog').forEach(d=>d.addEventListener('click',ev=>{if(d.id==='welcome-scratch-dialog'||ev.target!==d)return;const r=d.getBoundingClientRect();if(ev.clientX<r.left||ev.clientX>r.right||ev.clientY<r.top||ev.clientY>r.bottom)d.close();}));
 window.addEventListener('storage',event=>{if(event.key===key){try{cart=cleanCart(JSON.parse(event.newValue||'[]'),products);renderCart();}catch{}}});
 renderCart();
+
+// Homepage-only welcome promotion. It closes after 10 seconds of inactivity;
+// scratching or using the accessible reveal control keeps it open until dismissed.
+const scratchDialog = $('#welcome-scratch-dialog');
+if (scratchDialog) {
+  const canvas = $('[data-scratch-canvas]', scratchDialog);
+  const revealButton = $('[data-scratch-reveal]', scratchDialog);
+  const claimButton = $('[data-scratch-claim]', scratchDialog);
+  const status = $('[data-scratch-status]', scratchDialog);
+  let idleTimer, interacting = false, revealed = false, drawing = false;
+
+  function clearIdleTimer() { clearTimeout(idleTimer); }
+  function markInteracting() {
+    if (interacting) return;
+    interacting = true;
+    clearIdleTimer();
+    status.textContent = 'Keep scratching to reveal your welcome offer.';
+  }
+  function drawCover() {
+    if (revealed) return;
+    const rect = canvas.getBoundingClientRect();
+    const scale = window.devicePixelRatio || 1;
+    canvas.width = Math.max(1, Math.round(rect.width * scale));
+    canvas.height = Math.max(1, Math.round(rect.height * scale));
+    const context = canvas.getContext('2d');
+    context.setTransform(scale, 0, 0, scale, 0, 0);
+    const cover = context.createLinearGradient(0, 0, rect.width, rect.height);
+    cover.addColorStop(0, '#d8d5cf'); cover.addColorStop(.5, '#bdb9b1'); cover.addColorStop(1, '#e7e4df');
+    context.fillStyle = cover; context.fillRect(0, 0, rect.width, rect.height);
+    context.globalAlpha = .2; context.strokeStyle = '#ffffff'; context.lineWidth = 1;
+    for (let i = -rect.height; i < rect.width; i += 16) { context.beginPath(); context.moveTo(i, 0); context.lineTo(i + rect.height, rect.height); context.stroke(); }
+    context.globalAlpha = 1; context.fillStyle = '#353535'; context.textAlign = 'center'; context.font = '500 13px Inter, Arial, sans-serif';
+    context.fillText('SCRATCH TO REVEAL', rect.width / 2, rect.height / 2);
+  }
+  function point(event) {
+    const rect = canvas.getBoundingClientRect();
+    return {x:event.clientX - rect.left, y:event.clientY - rect.top};
+  }
+  function scratch(event) {
+    const context = canvas.getContext('2d');
+    const {x, y} = point(event);
+    context.save(); context.globalCompositeOperation = 'destination-out'; context.beginPath(); context.arc(x, y, 34, 0, Math.PI * 2); context.fill(); context.restore();
+  }
+  function reveal() {
+    if (revealed) return;
+    revealed = true; clearIdleTimer(); canvas.classList.add('is-revealed');
+    revealButton.hidden = true; claimButton.hidden = false;
+    status.textContent = 'Your offer is revealed. Claim your unique code by email.';
+    claimButton.focus();
+  }
+  function scratchedEnough() {
+    const context = canvas.getContext('2d');
+    const {width, height} = canvas;
+    const pixels = context.getImageData(0, 0, width, height).data;
+    let clear = 0, total = 0;
+    const step = Math.max(10, Math.round(Math.min(width, height) / 30));
+    for (let y = 0; y < height; y += step) for (let x = 0; x < width; x += step) { total++; if (pixels[(y * width + x) * 4 + 3] < 32) clear++; }
+    if (clear / total > .42) reveal();
+  }
+  function openWelcomeOffer() {
+    if (scratchDialog.open) return;
+    scratchDialog.showModal();
+    requestAnimationFrame(() => {
+      drawCover();
+      idleTimer = setTimeout(() => { if (!interacting) scratchDialog.close(); }, 10000);
+    });
+  }
+  canvas.addEventListener('pointerdown', event => { markInteracting(); drawing = true; canvas.setPointerCapture(event.pointerId); scratch(event); });
+  canvas.addEventListener('pointermove', event => { if (!drawing || revealed) return; scratch(event); scratchedEnough(); });
+  canvas.addEventListener('pointerup', () => { drawing = false; scratchedEnough(); });
+  canvas.addEventListener('pointercancel', () => { drawing = false; });
+  revealButton.addEventListener('click', () => { markInteracting(); reveal(); });
+  claimButton.addEventListener('click', () => scratchDialog.close());
+  scratchDialog.addEventListener('close', clearIdleTimer);
+  window.addEventListener('resize', drawCover);
+  window.setTimeout(openWelcomeOffer, 800);
+}
 
 function renderSearch() {
  const q=$('#product-search').value.trim().toLowerCase();

@@ -27,7 +27,7 @@
 .intro-transcript{background:var(--rose);max-width:none;border-bottom:0}
 .intro-transcript summary{font-size:11px;padding-block:15px;max-width:220px}
 .intro-transcript summary:after{top:10px;font-size:20px}
-.intro-transcript p{padding-top:6px}
+.intro-transcript p{padding-top:6px;margin-bottom:0}
 .range-portrait{width:100%;height:360px;object-fit:cover;object-position:center 32%;margin-bottom:28px}
 .routine-image{background:var(--rose);overflow:hidden}
 .routine-image img{object-fit:cover;object-position:center top}
@@ -506,5 +506,17 @@ h1,h2,h3,h4{color:var(--wine)}
 .story-section.story-text-only{grid-template-columns:1fr;min-height:0;padding-block:clamp(40px,7vh,80px)}
 .story-text-only .story-copy{max-width:660px}
 
+/* The Klaviyo onsite script renders the approved inline welcome form in this host. */
+.first-order-offer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(28px,6vw,90px);align-items:center;max-width:none;padding-block:22px;border-top:1px solid var(--wine);border-bottom:1px solid var(--wine);background:linear-gradient(90deg,var(--rose),#f7f2ec)}
+.first-order-copy{display:grid;grid-template-columns:132px minmax(0,1fr);align-items:center;gap:clamp(22px,3vw,48px)}.offer-mark{align-self:stretch;display:flex;flex-direction:column;justify-content:center;padding-right:24px;border-right:1px solid var(--wine);color:var(--wine)}.offer-mark .eyebrow{margin:0 0 7px;font-size:9px}.offer-mark strong{font:clamp(38px,3.5vw,58px)/.8 var(--serif);letter-spacing:-.07em}.offer-mark small{font:700 9px/1 var(--sans);letter-spacing:.15em;margin-left:5px}.first-order-copy h2{font-size:clamp(25px,2.6vw,39px);margin-bottom:7px}.first-order-copy p{max-width:580px;margin:0;font-size:12px}.first-order-form{min-height:52px;display:flex;align-items:center}.first-order-form .klaviyo-form-RGTYkv{min-height:52px}.form-fallback{margin:0;white-space:nowrap}.first-order-form:has(.klaviyo-form-RGTYkv iframe) .form-fallback{display:none}
+.journey{max-width:none;padding-block:0;padding-inline:0;gap:0;align-items:stretch}.journey a{flex:1;justify-content:center;min-height:106px;padding:18px 16px;border-left:1px solid var(--line);transition:background .2s,color .2s}.journey a:last-child{border-right:1px solid var(--line)}.journey a:hover{background:var(--rose);color:var(--wine)}.journey a:focus-visible{outline-offset:-5px}
+@media(max-width:800px){.journey{padding-block:22px;padding-inline:var(--gutter);gap:12px}.journey a{flex:0 0 auto;min-height:0;padding:8px 4px;border:0}.journey a:last-child{border-right:0}}
+@media(max-width:700px){.first-order-offer{grid-template-columns:1fr;gap:20px;padding-block:24px}.first-order-copy{grid-template-columns:104px minmax(0,1fr);gap:20px}.offer-mark{padding-right:16px}.first-order-form,.first-order-form .klaviyo-form-RGTYkv{min-height:0}}
+
 /* Recycling content stays within the existing two-section refill page. */
 .refill-recycling{border-top:1px solid var(--line);padding-top:16px;margin-bottom:20px;max-width:850px}.refill-recycling h2{font-size:24px;margin-bottom:8px}.refill-recycling p{font-size:13px;margin-bottom:10px}.tool-benefits{padding-top:0}.tool-benefits h2{margin-bottom:20px}
+
+/* Home-only welcome offer: the canvas is decorative; a button provides an equal non-scratch path. */
+.welcome-scratch-dialog{width:min(720px,calc(100% - 32px));padding:clamp(26px,4vw,52px);text-align:center;border-top:2px solid var(--wine)}.welcome-scratch-dialog .close-dialog{position:absolute;top:14px;right:16px}.welcome-scratch-copy{max-width:500px;margin:0 auto 28px}.welcome-scratch-copy .eyebrow{color:var(--wine);margin-bottom:12px}.welcome-scratch-copy h2{font-size:clamp(42px,5vw,64px);margin-bottom:14px}.welcome-scratch-copy p{font-size:14px;margin:0}.scratch-card{position:relative;isolation:isolate;width:min(100%,570px);height:clamp(230px,36vw,300px);margin:0 auto 18px;overflow:hidden;background:var(--wine);box-shadow:0 14px 34px #24070b26}.scratch-reward{position:absolute;inset:0;z-index:0;display:grid;place-content:center;color:var(--white);padding:28px;background:linear-gradient(135deg,#8a1a2a,#5f0d1a)}.scratch-reward span{font:clamp(56px,8vw,92px)/.95 var(--serif);letter-spacing:-.06em}.scratch-reward p{font-size:13px;margin:18px 0 0}.scratch-canvas{position:absolute;inset:0;z-index:2;width:100%;height:100%;touch-action:none;cursor:crosshair}.scratch-canvas.is-revealed{opacity:0;pointer-events:none;transition:opacity .35s ease}.scratch-reveal-button{display:inline-flex;position:absolute;z-index:3;right:14px;bottom:12px;padding:7px 9px;background:#fefbf5e8;border:1px solid #15151533;font-size:10px;text-decoration:underline}.scratch-canvas.is-revealed+.scratch-reveal-button{display:none}.scratch-status{margin:0 auto 18px;min-height:20px}.scratch-claim{margin-bottom:12px}.scratch-terms{margin:0}.welcome-scratch-dialog::backdrop{background:rgba(21,21,21,.56)}
+@media(max-width:600px){.welcome-scratch-dialog{padding:30px 22px}.welcome-scratch-copy{margin-bottom:22px}.scratch-card{height:230px}.scratch-reveal-button{font-size:9px}.scratch-reward span{font-size:58px}}
+.scratch-canvas{cursor:url('/29plus-review/assets/logo-cursor.png') 20 24,crosshair}
