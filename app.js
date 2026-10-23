@@ -128,7 +128,9 @@ if (scratchDialog) {
     let clear = 0, total = 0;
     const step = Math.max(10, Math.round(Math.min(width, height) / 30));
     for (let y = 0; y < height; y += step) for (let x = 0; x < width; x += step) { total++; if (pixels[(y * width + x) * 4 + 3] < 32) clear++; }
-    if (clear / total > .42) reveal();
+    // Preserve the gradual scratch-card effect. Only complete the reveal once
+    // most of the cover has genuinely been removed.
+    if (clear / total > .82) reveal();
   }
   function openWelcomeOffer() {
     if (scratchDialog.open) return;
