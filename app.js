@@ -128,9 +128,7 @@ if (scratchDialog) {
     let clear = 0, total = 0;
     const step = Math.max(10, Math.round(Math.min(width, height) / 30));
     for (let y = 0; y < height; y += step) for (let x = 0; x < width; x += step) { total++; if (pixels[(y * width + x) * 4 + 3] < 32) clear++; }
-    // Preserve the gradual scratch-card effect. Only complete the reveal once
-    // most of the cover has genuinely been removed.
-    if (clear / total > .82) reveal();
+    if (clear / total > .42) reveal();
   }
   function openWelcomeOffer() {
     if (scratchDialog.open) return;
@@ -182,7 +180,7 @@ const guide={
  rich:['The Rich ritual.','On cleansed skin, apply one pump of Eye Serum around the eye contours, followed by one pump of Rich Serum and then one pump of Rich Cream. Morning and evening. Use a separate sunscreen during the day.'],
  ultra:['The Ultra Rich ritual.','On cleansed skin, apply one pump of Eye Serum around the eye contours, followed by one pump of Ultra Rich Serum and then one pump of Ultra Rich Cream. Morning and evening. Use a separate sunscreen during the day.'],
  refill:['Refill your ritual.','Retain your original outer bottle, cap and pump. Replace the inner capsule with its matching refill. Follow the mechanism shown in the demonstration.'],
- inner:['Your daily INNER ritual.','Take one sachet daily. Follow the current directions on your pack for duration and breaks. For adults 18+. Do not exceed the recommended dose.'],
+  inner:['Your daily INNER+ ritual.','Take one sachet daily. Follow the current directions on your pack for duration and breaks. For adults 18+. Do not exceed the recommended dose.'],
  tool:['A moment with Gua Sha.','Apply skincare first so the tool can glide. Use gentle, outward strokes without dragging the skin. Clean before and after use. Avoid irritated or broken skin.']
 };
 $$('[data-video]').forEach(button=>button.addEventListener('click',()=>{

@@ -35,11 +35,19 @@
 .customer-stories{background:var(--wine);color:var(--white);padding-block:48px}
 .customer-stories .section-head{justify-content:center;margin-bottom:26px;text-align:center}
 .customer-stories .section-head h2{font-size:clamp(28px,2.5vw,36px);max-width:none}
-.review-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px}
-.customer-quote{margin:0;padding:16px 0 0;border-top:1px solid #ffffff40}
+.review-carousel{overflow:hidden;position:relative;margin-inline:calc(var(--gutter)*-1);padding-inline:var(--gutter)}
+.review-carousel:before,.review-carousel:after{content:"";position:absolute;z-index:1;top:0;bottom:0;width:min(10vw,110px);pointer-events:none}
+.review-carousel:before{left:0;background:linear-gradient(90deg,var(--wine),transparent)}
+.review-carousel:after{right:0;background:linear-gradient(270deg,var(--wine),transparent)}
+.review-track{display:flex;width:max-content;gap:28px;animation:review-scroll 42s linear infinite}
+.review-track-repeat{display:flex;gap:28px}
+.review-track:hover,.review-track:focus-within{animation-play-state:paused}
+.customer-quote{width:min(330px,76vw);margin:0;padding:16px 0 0;border-top:1px solid #ffffff40}
 .customer-quote blockquote{margin:0 0 12px;font:14px/1.6 var(--sans)}
 .customer-quote figcaption{font-size:11px;letter-spacing:.04em}
 .customer-quote figcaption:before{content:'— ';color:#ffb7c1}
+@keyframes review-scroll{to{transform:translateX(calc(-50% - 14px))}}
+@media(prefers-reduced-motion:reduce){.review-track{animation:none;overflow-x:auto;width:auto;padding-bottom:4px}.review-track-repeat{display:none}}
 .review-note{font-size:10px;color:#ffb7c1;margin:22px 0 0}
 .review-note a{text-decoration:underline;text-underline-offset:3px}
 .collection-intro{background:var(--rose)}
@@ -58,14 +66,14 @@
 @media(max-width:1100px){.range-portrait{height:310px}}
 @media(max-width:800px){
  .hero-film{margin:0;max-width:none}.hero-film video{max-width:620px}.hero-copy{padding-top:24px}
- .range-portrait{height:290px}.review-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+ .range-portrait{height:290px}
  .collection-intro-grid{grid-template-columns:1fr 1fr;gap:30px}.collection-intro h1{font-size:51px}
  .collection-intro .page-intro{padding-block:35px}.collection-portrait{min-height:440px}
  .product-editorial{max-width:none}.product-editorial img{max-height:500px;aspect-ratio:4/3}
  .story-campaign img{height:340px}
 }
 @media(max-width:600px){
- .customer-stories{padding-block:36px}.review-grid{grid-template-columns:1fr;gap:18px}
+ .customer-stories{padding-block:36px}.review-track,.review-track-repeat{gap:18px}
  .customer-stories .section-head{margin-bottom:20px}.review-note{max-width:300px}
  .collection-intro-grid{grid-template-columns:1fr;gap:0}.collection-intro .page-intro{padding-block:34px}
  .collection-intro h1{font-size:57px}.collection-portrait{min-height:0;height:390px;margin-inline:calc(-1 * var(--gutter))}
@@ -363,6 +371,20 @@
 }
 @media(prefers-reduced-motion:reduce){.hero .hero-film{background:url('/29plus-review/assets/29plus-hero-v02-poster.jpg') center/contain no-repeat}}
 
+/* PPT hero direction: a restrained Connecting Dots wordmark and a clearer shop action. */
+.hero h1.connecting-dots-wordmark{font-family:var(--sans);font-size:clamp(25px,2.25vw,40px);font-weight:400;letter-spacing:.055em;line-height:1;white-space:nowrap;margin-bottom:27px;color:#9a9a9c;display:flex;align-items:center;gap:.08em}
+.hero h1.connecting-dots-wordmark .wordmark-dot{display:block;width:.76em;height:.76em;flex:0 0 .76em;border-radius:50%;background:var(--wine)}
+.hero-foot:before{display:none}
+.hero-submark{display:inline-block;width:20px;height:20px;flex:0 0 20px;background:url('/29plus-review/assets/brand-mark.png') center/contain no-repeat}
+.hero-clinical{display:inline-flex;align-items:center;gap:8px;font-weight:700;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.hero-clinical img{width:34px;height:34px;object-fit:contain}
+.hero-clinical b{font-size:12px;font-weight:400}
+
+/* Values specified in the current 29 PLUS brand guideline. */
+:root{--wine:#8c1a2a;--ink:#2e2725;--muted:#9a9a9c}
+.hero .actions .text-link{font-weight:700;border-bottom-width:2px}
+@media(max-width:800px){.hero h1.connecting-dots-wordmark{font-size:clamp(24px,6.2vw,34px)}}
+
 /* Supplied expert portraits, with room for the third brand-team profile. */
 .experts{grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
 .expert{display:block}
@@ -481,6 +503,16 @@ h1,h2,h3,h4{color:var(--wine)}
 .ingredient-tabs button span{font-family:var(--sans);font-size:clamp(12px,1.2vw,18px);font-weight:700;line-height:1.35}
 .ingredient-tabs button small{font-size:11px}
 .test-icon{display:block;width:38px;height:38px;color:var(--wine);margin-bottom:18px}
+
+/* Homepage clinical credential, using the supplied icon as one integrated component. */
+.hero .hero-foot{display:block;max-width:310px;margin-top:34px;line-height:normal}
+.hero .hero-foot .hero-clinical{display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:12px;width:100%;padding:11px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--ink);font-weight:400;text-decoration:none}
+.hero .hero-foot .hero-clinical img{width:42px;height:42px;object-fit:contain}
+.hero .hero-foot .hero-clinical-copy{display:grid;gap:3px;min-width:0}
+.hero .hero-foot .hero-clinical-copy strong{color:var(--wine);font-size:10px;font-weight:700;letter-spacing:.035em;line-height:1.35}
+.hero .hero-foot .hero-clinical-copy small{color:var(--muted);font-size:10px;line-height:1.35}
+.hero .hero-foot .hero-clinical-arrow{color:var(--wine);font-size:15px;font-weight:400}
+.hero .hero-foot .hero-clinical:hover{color:var(--wine)}
 .test-icon svg{width:100%;height:100%}
 .study-context{display:grid;gap:10px;background:transparent;border-block:1px solid var(--line);padding:28px 0}
 .study-context h3{font:700 17px var(--sans);margin:0}
@@ -512,6 +544,32 @@ h1,h2,h3,h4{color:var(--wine)}
 .journey{max-width:none;padding-block:0;padding-inline:0;gap:0;align-items:stretch}.journey a{flex:1;justify-content:center;min-height:106px;padding:18px 16px;border-left:1px solid var(--line);transition:background .2s,color .2s}.journey a:last-child{border-right:1px solid var(--line)}.journey a:hover{background:var(--rose);color:var(--wine)}.journey a:focus-visible{outline-offset:-5px}
 @media(max-width:800px){.journey{padding-block:22px;padding-inline:var(--gutter);gap:12px}.journey a{flex:0 0 auto;min-height:0;padding:8px 4px;border:0}.journey a:last-child{border-right:0}}
 @media(max-width:700px){.first-order-offer{grid-template-columns:1fr;gap:20px;padding-block:24px}.first-order-copy{grid-template-columns:104px minmax(0,1fr);gap:20px}.offer-mark{padding-right:16px}.first-order-form,.first-order-form .klaviyo-form-RGTYkv{min-height:0}}
+
+/* The offer is a quiet dark band. The testing credential is distinct from the claim action. */
+.first-order-offer{background:var(--wine);border-color:var(--wine);color:#f7f2ec;padding-block:20px}
+.first-order-copy{grid-template-columns:104px minmax(0,1fr);gap:clamp(20px,3vw,42px)}
+.offer-mark{color:#f7f2ec;border-color:#ffffff55;padding-right:20px}
+.offer-mark strong{font-size:clamp(34px,3vw,50px)}
+.first-order-copy h2{color:#f7f2ec;font-size:clamp(24px,2.3vw,34px);max-width:460px}
+.first-order-copy p{color:#f2e9e1;max-width:500px}
+.offer-actions{display:flex;align-items:center;gap:18px}
+.first-order-form .form-fallback{background:transparent;border-color:#f7f2ec;color:#f7f2ec;min-height:48px;padding-inline:20px}
+.first-order-form .form-fallback:hover{background:#f7f2ec;color:var(--wine);transform:none}
+.offer-trust{display:flex;align-items:center;gap:8px;padding-left:18px;border-left:1px solid #ffffff55;color:#f7f2ec;font-size:9px;line-height:1.35;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.offer-trust img{width:31px;height:31px;object-fit:contain;filter:brightness(0) invert(1)}
+@media(max-width:900px){.first-order-offer{gap:28px}.offer-actions{align-items:flex-start;flex-direction:column;gap:12px}.offer-trust{padding-left:0;border-left:0}}
+@media(max-width:700px){.first-order-copy{grid-template-columns:86px minmax(0,1fr)}.offer-actions{flex-direction:row;align-items:center;justify-content:space-between}.offer-trust{padding-left:14px;border-left:1px solid #ffffff55}.first-order-form .form-fallback{padding-inline:16px;font-size:11px}}
+@media(max-width:480px){.offer-actions{align-items:flex-start;flex-direction:column}.offer-trust{padding-left:0;border-left:0}.first-order-copy{grid-template-columns:1fr}.offer-mark{border-right:0;border-bottom:1px solid #ffffff55;padding:0 0 12px}}
+
+/* Keep the offer compact, then use the clinical credential where its evidence is explained. */
+.first-order-offer{grid-template-columns:minmax(0,760px) auto;justify-content:start;gap:clamp(22px,3vw,48px);padding-block:16px}
+.offer-actions{display:block}
+.proof-compact .evidence-intro{display:block}
+.proof-compact .evidence-support{display:flex;align-items:center;gap:16px;margin-top:4px}
+.proof-compact .evidence-support .lead{margin:0}
+.proof-compact .evidence-clinical-mark{width:48px;height:48px;object-fit:contain;flex:0 0 auto}
+@media(max-width:900px){.first-order-offer{grid-template-columns:minmax(0,1fr) auto;gap:28px}.offer-actions{display:block}}
+@media(max-width:700px){.first-order-offer{grid-template-columns:1fr}.proof-compact .evidence-support{gap:12px}.proof-compact .evidence-clinical-mark{width:42px;height:42px}}
 
 /* Recycling content stays within the existing two-section refill page. */
 .refill-recycling{border-top:1px solid var(--line);padding-top:16px;margin-bottom:20px;max-width:850px}.refill-recycling h2{font-size:24px;margin-bottom:8px}.refill-recycling p{font-size:13px;margin-bottom:10px}.tool-benefits{padding-top:0}.tool-benefits h2{margin-bottom:20px}
